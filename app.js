@@ -24,7 +24,7 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-
+app.use(methodOverride('_method',{methods: ["POST","GET"]}));
 // Configuracion de la session para almacenarla en BBDD usando Sequelize.
 var sequelize = require("./models");
 var sessionStore = new SequelizeStore({

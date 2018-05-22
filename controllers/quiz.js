@@ -1,6 +1,7 @@
 const Sequelize = require("sequelize");
 const {models} = require("../models");
 
+let score = 0;
 // Autoload the quiz with id equals to :quizId
 exports.load = (req, res, next, quizId) => {
 
@@ -147,9 +148,67 @@ exports.check = (req, res, next) => {
     const answer = query.answer || "";
     const result = answer.toLowerCase().trim() === quiz.answer.toLowerCase().trim();
 
-    res.render('quizzes/result', {
+        res.render('quizzes/result', {
+            quiz,
+            result,
+            answer
+        });
+
+};
+
+// GET /quizzes/:quizId/play
+exports.randomplay = (req, res, next) => {
+
+    let toBePlayed = [];
+    models.quiz.findAll().forEach((quiz,id) =>{
+        toBePlayed[i] = quiz;
+    });
+
+    let randomId =  Math.floor(Math.random()*toBePlayed.length);;
+
+    let quiz = toBePlayed[randomId];
+
+    if(toBePlayed.length === 0){
+        res.render('quizzes/random_nomore',{quizzes});
+    }else{
+        toBePlayed.splice(randomId,1);
+    }
+  //  const {quiz, query} = req;
+
+    const answer = query.answer || '';
+
+    res.render('quizzes/random_play', {
         quiz,
-        result,
         answer
     });
+
+
 };
+
+exports.score = (req, res, next) => {
+ return score;
+};
+exports.randomcheck = (req, res, next) => {
+
+    const {quiz, query} = req;
+
+    const answer = query.answer || "";
+    const result = answer.toLowerCase().trim() === quiz.answer.toLowerCase().trim();
+
+    if(result){
+        score++;
+        //toBePlayed.splice(randomId,1);
+        res.render('quizzes/random_play',{
+            quiz,
+            answer
+        });
+    }else{
+        score--;
+        res.render('quizzes/random_result', {
+            quiz,
+            result,
+            answer
+        });
+    }
+};
+

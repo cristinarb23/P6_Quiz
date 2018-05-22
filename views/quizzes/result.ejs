@@ -12,5 +12,9 @@
        <a href="/quizzes/<%= quiz.id %>/play?answer=<%= answer %>"> Try it again </a>
     <% } %>
 </p>
+<p>
+    Puntuacion actual:<b><%= quiz.score%></b>
+</p>
 
-<a href="/quizzes"><button>Go back</button></a>
+<a href="/quizzes/randomplay"><button>Seguir jugando</button></a>
+<a href="/quizzes"><button>Volver </button></a>
